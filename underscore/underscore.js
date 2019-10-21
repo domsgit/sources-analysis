@@ -111,6 +111,7 @@
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
   // functions.
+  // 根据传入的回调返回有效率的（对当前引擎来说）版本的内部函数，以便在其他Underscore函数中复用。
   var optimizeCb = function (func, context, argCount) {
     if (context === void 0) return func;
     switch (argCount == null ? 3 : argCount) {
@@ -118,6 +119,7 @@
         return func.call(context, value);
       };
       // The 2-argument case is omitted because we’re not using it.
+      // 第二个参数没有用到，省略掉
       case 3: return function (value, index, collection) {
         return func.call(context, value, index, collection);
       };
@@ -179,12 +181,19 @@
   };
 
   // An internal function for creating a new object that inherits from another.
+  // 内部函数，新建一个对象，该对象继承另一个对象
   var baseCreate = function (prototype) {
+    // prototype 如果不是对象，则返回`{}`
     if (!_.isObject(prototype)) return {};
+    // 如果支持原生的`Object.create`，则调用原生的`Object.create`并返回结果
     if (nativeCreate) return nativeCreate(prototype);
+    // `Ctor`是一个裸函数，继承传入的参数`prototype`
     Ctor.prototype = prototype;
+    // 实例化
     var result = new Ctor;
+    // 清空`Ctor`裸函数原型，以便下次使用
     Ctor.prototype = null;
+    // 返回实例化的结果，该结果继承了传入的参数`prototype`
     return result;
   };
 
@@ -194,6 +203,7 @@
     };
   };
 
+  // Object.hasOwnProperty的简写，判断是否是自身有的属性，而非继承来的属性
   var has = function (obj, path) {
     return obj != null && hasOwnProperty.call(obj, path);
   }
@@ -1721,14 +1731,17 @@
   });
 
   // Extracts the result from a wrapped and chained object.
+  // 从包装链式的对象中抽出结果
   _.prototype.value = function () {
     return this._wrapped;
   };
 
   // Provide unwrapping proxy for some methods used in engine operations
   // such as arithmetic and JSON stringification.
+  // 在某些内部操作，诸如算术和JSON字符串化中，提供给一些函数未包裹的代理
   _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
 
+  // 重写`toString`方法
   _.prototype.toString = function () {
     return String(this._wrapped);
   };
@@ -1740,6 +1753,10 @@
   // popular enough to be bundled in a third party lib, but not be part of
   // an AMD load request. Those cases could generate an error when an
   // anonymous define() is called outside of a loader request.
+  // 为了兼容AMD加载，最后这里注册AMD支持。AMD模块可能在下个版本不需要了。
+  // 一般来说，AMD注册应该是匿名注册，underscore把它作为一个命名模块注册是因为，
+  // 诸如JQuery这样的库是一个流行的足以捆绑支持第三方库的库，但它不是AMD加载的一部分。
+  // 这种情况，在一个加载请求的外面匿名调用`define()`会导致错误。
   if (typeof define == 'function' && define.amd) {
     define('underscore', [], function () {
       return _;

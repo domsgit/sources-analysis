@@ -6,7 +6,7 @@
 /** 
 * 最外面用了立即执行函数(IIFE)，这么做有利于模块化，避免命名冲突
 * 具体更多关于IIFE的内容参考：
-* http://wangdoc.com/javascript/types/function.html#%E7%AB%8B%E5%8D%B3%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%88iife%EF%BC%89
+* http://wangdoc.com/javascript/types/function.html#立即调用的函数表达式（iife）
 */
 (function () {
 
@@ -132,11 +132,14 @@
     };
   };
 
+  // 内建迭代
   var builtinIteratee;
 
   // An internal function to generate callbacks that can be applied to each
   // element in a collection, returning the desired result — either `identity`,
   // an arbitrary callback, a property matcher, or a property accessor.
+  // 一个内部函数，生成一个可以应用到集合中的每个元素的回调，返回需要的结果————
+  // 无论是身份认证，还是任意的回调，属性匹配，或是属性存取器。
   var cb = function (value, context, argCount) {
     if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
@@ -148,6 +151,8 @@
   // External wrapper for our callback generator. Users may customize
   // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
   // This abstraction hides the internal-only argCount argument.
+  // 内部回调生成器的包装器。用户也许想私人订制`_.iteratee`，如果他们想另外predicate/iteratee速记方式。
+  // 这种抽象隐藏了仅供内部使用的argCount参数。
   _.iteratee = builtinIteratee = function (value, context) {
     return cb(value, context, Infinity);
   };
@@ -157,6 +162,9 @@
   // on. This helper accumulates all remaining arguments past the function’s
   // argument length (or an explicit `startIndex`), into an array that becomes
   // the last argument. Similar to ES6’s "rest parameter".
+  // 一些函数在开始时采用可变数量的参数，或者在开头采用一些预期参数，然后对可变数量的值进行运算。 
+  // 该辅助函数将函数的参数长度（或显式的“ startIndex”）之后的所有剩余参数累加到一个数组中，该数组成为最后一个参数。 
+  // 与ES6的“rest参数”相似。
   var restArguments = function (func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function () {
@@ -197,6 +205,7 @@
     return result;
   };
 
+  // 获取浅属性
   var shallowProperty = function (key) {
     return function (obj) {
       return obj == null ? void 0 : obj[key];
@@ -208,6 +217,7 @@
     return obj != null && hasOwnProperty.call(obj, path);
   }
 
+  // ??TODO??
   var deepGet = function (obj, path) {
     var length = path.length;
     for (var i = 0; i < length; i++) {
@@ -221,28 +231,36 @@
   // should be iterated as an array or as an object.
   // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  // 方法集的辅助方法，以确定是否收集应该作为数组或对象进行迭代。
+  // 相关： http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  // 避免一个讨厌的在ARM-64上的ios 8 即时编译的bug。#2094
+  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1; // 数组最大索引
   var getLength = shallowProperty('length');
+  // 是否是类数组
+  // 判断依据，看是否有length属性，且属性大小在0-MAX_ARRAY_INDEX之间的数字类型
   var isArrayLike = function (collection) {
     var length = getLength(collection);
     return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
   };
 
   // Collection Functions
-  // 函数集
+  // 集合函数
   // --------------------
 
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
+  // `each`函数，也叫`forEach`，是基础函数。
+  // 除了处理类似数组的对象外，还处理原始对象。 犹如对待稠密函数一样，对待所有
+  // 稀疏数组。
   _.each = _.forEach = function (obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
     var i, length;
-    if (isArrayLike(obj)) {
+    if (isArrayLike(obj)) { // 类数组
       for (i = 0, length = obj.length; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
-    } else {
+    } else { // 对象
       var keys = _.keys(obj);
       for (i = 0, length = keys.length; i < length; i++) {
         iteratee(obj[keys[i]], keys[i], obj);
@@ -252,6 +270,7 @@
   };
 
   // Return the results of applying the iteratee to each element.
+  // 返回将iteratee应用于每个元素的结果。
   _.map = _.collect = function (obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
@@ -265,9 +284,11 @@
   };
 
   // Create a reducing function iterating left or right.
+  // 创建向左或向右迭代的函数。
   var createReduce = function (dir) {
     // Wrap code that reassigns argument variables in a separate function than
     // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
+    // 将代码变量包装在一个单独的函数中，而不是访问`arguments.length`，以避免性能下降。(#1991)
     var reducer = function (obj, iteratee, memo, initial) {
       var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
@@ -291,12 +312,15 @@
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
+  // **Reduce**从值的列表中构建成一个单值，也叫`inject`或`foldl`。
   _.reduce = _.foldl = _.inject = createReduce(1);
 
   // The right-associative version of reduce, also known as `foldr`.
+  // 右开始的reduce，也叫`foldr`。
   _.reduceRight = _.foldr = createReduce(-1);
 
   // Return the first value which passes a truth test. Aliased as `detect`.
+  // 返回通过真值测试的第一个值。也叫`detect`。
   _.find = _.detect = function (obj, predicate, context) {
     var keyFinder = isArrayLike(obj) ? _.findIndex : _.findKey;
     var key = keyFinder(obj, predicate, context);
@@ -305,6 +329,7 @@
 
   // Return all the elements that pass a truth test.
   // Aliased as `select`.
+  // 返回所有的通过真值测试的元素。也叫`select`。
   _.filter = _.select = function (obj, predicate, context) {
     var results = [];
     predicate = cb(predicate, context);
@@ -315,6 +340,7 @@
   };
 
   // Return all the elements for which a truth test fails.
+  // 返回所有的没通过真值测试的元素。
   _.reject = function (obj, predicate, context) {
     return _.filter(obj, _.negate(cb(predicate)), context);
   };
@@ -443,6 +469,7 @@
   };
 
   // Shuffle a collection.
+  // 清洗一个集合。
   _.shuffle = function (obj) {
     return _.sample(obj, Infinity);
   };
@@ -524,11 +551,13 @@
 
   var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   // Safely create a real, live array from anything iterable.
+  // 从任何可迭代的对象安全地创建一个真实的实时数组。
   _.toArray = function (obj) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
     if (_.isString(obj)) {
       // Keep surrogate pair characters together
+      // 保持代理配对字符在一起
       return obj.match(reStrSymbol);
     }
     if (isArrayLike(obj)) return _.map(obj, _.identity);
@@ -536,6 +565,7 @@
   };
 
   // Return the number of elements in an object.
+  // 返回对象中元素个数
   _.size = function (obj) {
     if (obj == null) return 0;
     return isArrayLike(obj) ? obj.length : _.keys(obj).length;
@@ -543,16 +573,20 @@
 
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
+  // 将集合分为两个数组：一个数组的所有元素均满足给定谓词，另一个数组的所有元素均不满足谓词。
   _.partition = group(function (result, value, pass) {
     result[pass ? 0 : 1].push(value);
   }, true);
 
   // Array Functions
+  // 数组函数
   // ---------------
 
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. Aliased as `head` and `take`. The **guard** check
   // allows it to work with `_.map`.
+  // 取数组中的第一个元素。传递n将会返回数组中的前N个值。
+  // 也叫`head`、`take`。**guard**参数以确保能在`_.map`中使用。
   _.first = _.head = _.take = function (array, n, guard) {
     if (array == null || array.length < 1) return n == null ? void 0 : [];
     if (n == null || guard) return array[0];
@@ -562,6 +596,8 @@
   // Returns everything but the last entry of the array. Especially useful on
   // the arguments object. Passing **n** will return all the values in
   // the array, excluding the last N.
+  // 返回除数组的最后一项以外的所有内容。特别是在arguments对象上特别有用。
+  // 传递**n**将返回数组中除了最后的N外的所有值。
   _.initial = function (array, n, guard) {
     return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
   };
@@ -1455,31 +1491,37 @@
   };
 
   // Utility Functions
+  // 工具函数
   // -----------------
 
   // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
   // previous owner. Returns a reference to the Underscore object.
+  // 以*noConflict*模式运行Underscore.js，返回之前如存在的`_`变量。该函数返回Underscore对象的引用。
   _.noConflict = function () {
     root._ = previousUnderscore;
     return this;
   };
 
   // Keep the identity function around for default iteratees.
+  // 保留身份功能以进行默认迭代。
   _.identity = function (value) {
     return value;
   };
 
   // Predicate-generating functions. Often useful outside of Underscore.
+  // 断言生成函数。 通常在Underscore之外有用。
   _.constant = function (value) {
     return function () {
       return value;
     };
   };
 
+  // 空函数
   _.noop = function () { };
 
   // Creates a function that, when passed an object, will traverse that object’s
   // properties down the given `path`, specified as an array of keys or indexes.
+  // 创建一个函数，当传递对象时，该函数将沿给定的“路径”遍历该对象的属性，该路径指定为键或索引的数组。
   _.property = function (path) {
     if (!_.isArray(path)) {
       return shallowProperty(path);
@@ -1490,6 +1532,7 @@
   };
 
   // Generates a function for a given object that returns a given property.
+  // 为给定对象生成一个函数，该函数返回给定属性。
   _.propertyOf = function (obj) {
     if (obj == null) {
       return function () { };
@@ -1501,6 +1544,7 @@
 
   // Returns a predicate for checking whether an object has a given set of
   // `key:value` pairs.
+  // 返回一个断言，用于检查对象是否具有给定的“键：值”对。
   _.matcher = _.matches = function (attrs) {
     attrs = _.extendOwn({}, attrs);
     return function (obj) {
@@ -1509,6 +1553,7 @@
   };
 
   // Run a function **n** times.
+  // 运行一个函数**n**次
   _.times = function (n, iteratee, context) {
     var accum = Array(Math.max(0, n));
     iteratee = optimizeCb(iteratee, context, 1);
@@ -1517,6 +1562,7 @@
   };
 
   // Return a random integer between min and max (inclusive).
+  // 返回一个在min到max（包含）之间的随机数字
   _.random = function (min, max) {
     if (max == null) {
       max = min;
@@ -1526,11 +1572,13 @@
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
+  // 获取当前时间戳的整数值
   _.now = Date.now || function () {
     return new Date().getTime();
   };
 
   // List of HTML entities for escaping.
+  // 要转义的HTML实体列表。
   var escapeMap = {
     '&': '&amp;',
     '<': '&lt;',
@@ -1678,6 +1726,7 @@
   };
 
   // Add a "chain" function. Start chaining a wrapped Underscore object.
+  // 添加一个 ”链式“ 函数。开始链式一个包装Underscore对象。
   _.chain = function (obj) {
     var instance = _(obj);
     instance._chain = true;
@@ -1689,13 +1738,19 @@
   // If Underscore is called as a function, it returns a wrapped object that
   // can be used OO-style. This wrapper holds altered versions of all the
   // underscore functions. Wrapped objects may be chained.
+  // 面向对象
+  // ---------------
+  // 如果Underscore以函数调用，将会返回一个类面向对象的包装对象。
+  // 这个包装器包含所有的underscore函数。包装对象可以链式调用。
 
   // Helper function to continue chaining intermediate results.
+  // 辅助函数可继续链式调用中间结果
   var chainResult = function (instance, obj) {
     return instance._chain ? _(obj).chain() : obj;
   };
 
   // Add your own custom functions to the Underscore object.
+  // 添加自定义的函数到Underscore对象上
   _.mixin = function (obj) {
     _.each(_.functions(obj), function (name) {
       var func = _[name] = obj[name];
@@ -1709,9 +1764,11 @@
   };
 
   // Add all of the Underscore functions to the wrapper object.
+  // 添加所有Underscore函数到包装对象上
   _.mixin(_);
 
   // Add all mutator Array functions to the wrapper.
+  // 将所有变量数组函数添加到包装器。
   _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function (name) {
     var method = ArrayProto[name];
     _.prototype[name] = function () {
@@ -1723,6 +1780,7 @@
   });
 
   // Add all accessor Array functions to the wrapper.
+  // 将所有访问器数组函数添加到包装器。
   _.each(['concat', 'join', 'slice'], function (name) {
     var method = ArrayProto[name];
     _.prototype[name] = function () {

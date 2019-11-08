@@ -251,8 +251,9 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   // `each`函数，也叫`forEach`，是基础函数。
-  // 除了处理类似数组的对象外，还处理原始对象。 犹如对待稠密函数一样，对待所有
-  // 稀疏数组。
+  // 除了处理类似数组的对象外，还处理原始对象。 犹如对待稠密函数一样，对待所有
+  // 稀疏数组。
+  // 详细用法参考：https://underscorejs.org/#each
   _.each = _.forEach = function (obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
     var i, length;
@@ -1061,6 +1062,7 @@
   _.restArguments = restArguments;
 
   // Object Functions
+  // 对象函数
   // ----------------
 
   // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
@@ -1392,6 +1394,8 @@
 
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
+  // 给定的是否是空数组，空字符串，或者是空对象？
+  // 一个“空”对象没有可数的自身属性。
   _.isEmpty = function (obj) {
     if (obj == null) return true;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
@@ -1399,6 +1403,7 @@
   };
 
   // Is a given value a DOM element?
+  // 给定的是否是一个DOM元素，nodeType 为 1，则为元素；
   _.isElement = function (obj) {
     return !!(obj && obj.nodeType === 1);
   };

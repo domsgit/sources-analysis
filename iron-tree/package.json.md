@@ -1,6 +1,6 @@
 
 
-```json
+```js
 {
   "name": "@denq/iron-tree", // 模块名
   "version": "1.3.2", // 版本

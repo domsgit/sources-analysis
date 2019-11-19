@@ -253,7 +253,31 @@
   // `each`函数，也叫`forEach`，是基础函数。
   // 除了处理类似数组的对象外，还处理原始对象。 犹如对待稠密函数一样，对待所有
   // 稀疏数组。
-  // 详细用法参考：https://underscorejs.org/#each
+  // 详细用法(https://underscorejs.org/#each)：
+  /**
+      _.each(list, iteratee, [context]) Alias: forEach
+      Iterates over a list of elements, yielding each in turn to an iteratee function. 
+      The iteratee is bound to the context object, if one is passed. 
+      Each invocation of iteratee is called with three arguments: (element, index, list). 
+      If list is a JavaScript object, iteratee's arguments will be (value, key, list). Returns the list for chaining.
+      _.each(list, iteratee, [context]) 也称: forEach
+      遍历元素列表，依次将每个元素传递到iteratee函数。如果已传递，则iteratee绑定到上下文对象。
+      每次调用iteratee时都会调用三个参数：(element, index, list)。
+      如果list为JavaScript对象，iteratee的参数为：(value, key, list)。返回元素列表以便链式调用。
+
+      ```js
+      _.each([1, 2, 3], alert);
+      => alerts each number in turn... // 依次弹出每个数字
+      _.each({one: 1, two: 2, three: 3}, alert);
+      => alerts each number value in turn... // 依次弹出每个数字
+      ```
+
+      Note: Collection functions work on arrays, objects, and array-like objects such as arguments, NodeList and similar. 
+      But it works by duck-typing, so avoid passing objects with a numeric length property. 
+      It's also good to note that an each loop cannot be broken out of — to break, use _.find instead.
+      注意：集合函数适用于数组，对象和类似数组的对象，例如arguments，NodeList等。
+      但是鸭子类型也可运行，因此请避免传递具有数字长度属性的对象。另外注意循环无法中断————需要中断，以`_.find`替代。
+   */
   _.each = _.forEach = function (obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
     var i, length;
@@ -272,6 +296,24 @@
 
   // Return the results of applying the iteratee to each element.
   // 返回将iteratee应用于每个元素的结果。
+  // 详细用法(https://underscorejs.org/#map):
+  /**
+    _.map(list, iteratee, [context]) Alias: collect
+    Produces a new array of values by mapping each value in list through a transformation function (iteratee). 
+    The iteratee is passed three arguments: the value, then the index (or key) of the iteration, and finally a reference to the entire list.
+    _.map(list, iteratee, [context]) 也叫: collect
+    通过转换函数（iteratee）映射列表中的每个值来生成新的值数组。
+    iteratee函数有三个参数：值，索引（或键名），最后一个是整个列表的引用。
+
+    ```js
+    _.map([1, 2, 3], function(num){ return num * 3; });
+    => [3, 6, 9]
+    _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
+    => [3, 6, 9]
+    _.map([[1, 2], [3, 4]], _.first);
+    => [1, 3]
+    ```
+   */
   _.map = _.collect = function (obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
@@ -314,10 +356,41 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
   // **Reduce**从值的列表中构建成一个单值，也叫`inject`或`foldl`。
+  // 详细用法(https://underscorejs.org/#reduce): 
+  /**
+      _.reduce(list, iteratee, [memo], [context])   Aliases: inject, foldl
+      Also known as inject and foldl, reduce boils down a list of values into a single value. 
+      Memo is the initial state of the reduction, and each successive step of it should be returned by iteratee. 
+      The iteratee is passed four arguments: the memo, then the value and index (or key) of the iteration, and finally a reference to the entire list.
+      _.reduce(list, iteratee, [memo], [context])   也叫: inject, foldl
+      也叫inject、foldl，reduce将值列表简化为单个值。Memo是reduce的初始状态，它的每个后续步骤都应该由iteratee返回。
+      iteratee有四个参数：memo，迭代的值和索引，最后一个是整个列表的引用。
+
+      If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element of the list. 
+      The first element is instead passed as the memo in the invocation of the iteratee on the next element in the list.
+      如果没有memo传递给reduce的初始调用，则不会在列表的第一个元素上调用iteratee。
+
+      ```js
+      var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+      => 6
+      ```
+   */
   _.reduce = _.foldl = _.inject = createReduce(1);
 
   // The right-associative version of reduce, also known as `foldr`.
   // 右开始的reduce，也叫`foldr`。
+  // 详细用法参考：https://underscorejs.org/#reduceRight
+  /**
+      _.reduceRight(list, iteratee, [memo], [context]) Alias: foldr
+      The right-associative version of reduce. Foldr is not as useful in JavaScript as it would be in a language with lazy evaluation.
+      右开始的reduce。Foldr在JavaScript中的用处不如在具有延迟评估的语言中有用。
+
+      ```js
+      var list = [[0, 1], [2, 3], [4, 5]];
+      var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
+      => [4, 5, 2, 3, 0, 1]
+      ```
+   */
   _.reduceRight = _.foldr = createReduce(-1);
 
   // Return the first value which passes a truth test. Aliased as `detect`.

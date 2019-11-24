@@ -395,6 +395,20 @@
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   // 返回通过真值测试的第一个值。也叫`detect`。
+  // 详细用法参考：https://underscorejs.org/#find
+  /*
+      _.find(list, predicate, [context]) Alias: detect
+      Looks through each value in the list, returning the first one that passes a truth test (predicate), or undefined if no value passes the test. 
+      The function returns as soon as it finds an acceptable element, and doesn't traverse the entire list. 
+      predicate is transformed through iteratee to facilitate shorthand syntaxes.
+      遍历列表中的每个值，返回第一个通过真值测试（断言）的值，如果没有值通过测试，则返回undefined。
+      该函数在找到满足条件的元素后立即返回，并且不会遍历整个列表。 断言通过迭代进行转换，以简化语法。
+
+      ```js
+      var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+      => 2
+      ```
+  */
   _.find = _.detect = function (obj, predicate, context) {
     var keyFinder = isArrayLike(obj) ? _.findIndex : _.findKey;
     var key = keyFinder(obj, predicate, context);
@@ -404,6 +418,18 @@
   // Return all the elements that pass a truth test.
   // Aliased as `select`.
   // 返回所有的通过真值测试的元素。也叫`select`。
+  // 详细用法参考：https://underscorejs.org/#filter
+  /*
+      _.filter(list, predicate, [context]) Alias: select
+      Looks through each value in the list, returning an array of all the values that pass a truth test (predicate). 
+      predicate is transformed through iteratee to facilitate shorthand syntaxes.
+      遍历列表中的每个值，返回所有通过真值测试（断言）的值的数组。断言通过迭代进行转换，以简化语法。
+
+      ```js
+      var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+      => [2, 4, 6]
+      ```
+  */
   _.filter = _.select = function (obj, predicate, context) {
     var results = [];
     predicate = cb(predicate, context);
@@ -415,6 +441,18 @@
 
   // Return all the elements for which a truth test fails.
   // 返回所有的没通过真值测试的元素。
+  // 详细用法参考：https://underscorejs.org/#reject
+  /*
+      _.reject(list, predicate, [context])
+      Returns the values in list without the elements that the truth test (predicate) passes. The opposite of filter. 
+      predicate is transformed through iteratee to facilitate shorthand syntaxes.
+      返回列表中的值，其中不包含真值测试（断言）通过的元素。与filter相反。断言通过迭代进行转换，以简化语法。
+
+      ```js
+      var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+      => [1, 3, 5]
+      ```
+  */
   _.reject = function (obj, predicate, context) {
     return _.filter(obj, _.negate(cb(predicate)), context);
   };

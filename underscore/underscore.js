@@ -459,6 +459,21 @@
 
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
+  // 确定是否所有元素都与真相测试匹配。
+  // 详细用法参考：https://underscorejs.org/#every
+  /*
+    _.every(list, [predicate], [context]) Alias: all
+    Returns true if all of the values in the list pass the predicate truth test. 
+    Short-circuits and stops traversing the list if a false element is found. 
+    predicate is transformed through iteratee to facilitate shorthand syntaxes.
+    如果列表中的所有值均通过真值测试，则返回true。如果发现错误元素，则短路并停止遍历该列表。
+    断言通过迭代进行转换，以简化语法。
+     
+    ```js
+    _.every([2, 4, 5], function(num) { return num % 2 == 0; });
+    => false
+    ```
+  */
   _.every = _.all = function (obj, predicate, context) {
     predicate = cb(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
@@ -472,6 +487,21 @@
 
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
+  // 确定对象中的至少一个元素是否与真实性测试匹配。
+  // 详细用法参考：https://underscorejs.org/#some
+  /*
+      _.some(list, [predicate], [context]) Alias: any
+      Returns true if any of the values in the list pass the predicate truth test. 
+      Short-circuits and stops traversing the list if a true element is found. 
+      predicate is transformed through iteratee to facilitate shorthand syntaxes.
+      如果列表中的任何值通过真值测试，则返回true。如果找到正确的元素，则短路并停止遍历该列表。
+      断言通过迭代进行转换，以简化语法。
+       
+    ```js
+      _.some([null, 0, 'yes', false]);
+      => true
+    ```
+  */
   _.some = _.any = function (obj, predicate, context) {
     predicate = cb(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
@@ -485,6 +515,19 @@
 
   // Determine if the array or object contains a given item (using `===`).
   // Aliased as `includes` and `include`.
+  // 判断一个数组或对象中是否包含给定的元素（全等判断）
+  // 详细用法参考：https://underscorejs.org/#contains
+  /*
+    _.contains(list, value, [fromIndex]) Aliases: include, includes
+    Returns true if the value is present in the list. Uses indexOf internally, if list is an Array. 
+    Use fromIndex to start your search at a given index.
+    如果列表中有该元素，返回true。如果列表是数组，直接用indexOf。使用fromIndex在给定索引处开始搜索。
+
+    ```js
+    _.contains([1, 2, 3], 3);
+    => true
+    ```
+  */
   _.contains = _.includes = _.include = function (obj, item, fromIndex, guard) {
     if (!isArrayLike(obj)) obj = _.values(obj);
     if (typeof fromIndex != 'number' || guard) fromIndex = 0;
@@ -657,6 +700,21 @@
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
+  // 对按特定条件分组的对象的实例进行计数。传递要计数的字符串属性或返回条件的函数。
+  // https://underscorejs.org/#countBy
+  /*
+    _.countBy(list, iteratee, [context])
+    Sorts a list into groups and returns a count for the number of objects in each group. 
+    Similar to groupBy, but instead of returning a list of values, returns a count for the number of values in that group.
+    将列表分为几组，并返回每个组中对象数的计数。与groupBy相似，但不返回值列表，而是返回该组中值数量的计数。
+
+    ```js
+    _.countBy([1, 2, 3, 4, 5], function(num) {
+      return num % 2 == 0 ? 'even': 'odd';
+    });
+    => {odd: 3, even: 2}
+    ```
+  */
   _.countBy = group(function (result, value, key) {
     if (has(result, key)) result[key]++; else result[key] = 1;
   });
@@ -664,6 +722,17 @@
   var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   // Safely create a real, live array from anything iterable.
   // 从任何可迭代的对象安全地创建一个真实的实时数组。
+  // https://underscorejs.org/#toArray
+  /*
+    _.toArray(list)
+    Creates a real Array from the list (anything that can be iterated over). Useful for transmuting the arguments object.
+    从列表（任何可以迭代的）中创建一个数组。对于转换arguments对象很有用。
+
+    ```js
+    (function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
+    => [2, 3, 4]
+    ```
+  */
   _.toArray = function (obj) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
@@ -678,6 +747,20 @@
 
   // Return the number of elements in an object.
   // 返回对象中元素个数
+  // https://underscorejs.org/#size
+  /*
+    _.size(list)
+    Return the number of values in the list.
+    返回列表中元素的个数
+
+    ```js
+    _.size([1, 2, 3, 4, 5]);
+    => 5
+
+    _.size({one: 1, two: 2, three: 3});
+    => 3
+    ```
+  */
   _.size = function (obj) {
     if (obj == null) return 0;
     return isArrayLike(obj) ? obj.length : _.keys(obj).length;
@@ -685,7 +768,20 @@
 
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
-  // 将集合分为两个数组：一个数组的所有元素均满足给定谓词，另一个数组的所有元素均不满足谓词。
+  // 将集合分为两个数组：一个数组的所有元素均满足给定条件，另一个数组的所有元素均不满足条件。
+  // https://underscorejs.org/#partition
+  /*
+    _.partition(list, predicate)
+    Split list into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate. 
+    predicate is transformed through iteratee to facilitate shorthand syntaxes.
+    把列表拆成两个数组：一个所有元素都满足条件，另一个所有元素都不满足条件。
+    断言通过迭代进行转换，以简化语法。
+
+    ```js
+    _.partition([0, 1, 2, 3, 4, 5], isOdd);
+    => [[1, 3, 5], [0, 2, 4]]
+    ```
+  */
   _.partition = group(function (result, value, pass) {
     result[pass ? 0 : 1].push(value);
   }, true);

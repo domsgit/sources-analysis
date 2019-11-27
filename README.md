@@ -8,5 +8,3 @@
 
 
 ## [iron-tree](https://github.com/DenQ/iron-tree)
-
-## [vue-next](https://github.com/vuejs/vue-next)

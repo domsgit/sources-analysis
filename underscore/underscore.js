@@ -3,7 +3,7 @@
 //     (c) 2009-2018 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
-/** 
+/**
 * 最外面用了立即执行函数(IIFE)，这么做有利于模块化，避免命名冲突
 * 具体更多关于IIFE的内容参考：
 * http://wangdoc.com/javascript/types/function.html#立即调用的函数表达式（iife）
@@ -53,7 +53,7 @@
 
   // Create quick reference variables for speed access to core prototypes.
   // 创建快速调用主原型的链接。
-  // 
+  //
   // 原型链查找也是要花时间的。如果原型链比较深，或是某个原型上的函数用得地方比较多，
   // 不妨新建一个变量缓存一下，以牺牲一个变量的空间换取重复原型链查找的时间
   var push = ArrayProto.push,
@@ -68,7 +68,7 @@
     nativeKeys = Object.keys,
     nativeCreate = Object.create;
 
-  // Naked function reference for surrogate-prototype-swapping.   
+  // Naked function reference for surrogate-prototype-swapping.
   // `surrogate-prototype-swapping`的裸函数引用
   // `surrogate-prototype-swapping`的理解：
   // `Ctor`就是一个裸函数，本身并没有什么特别的，特别之处在于用途
@@ -162,8 +162,8 @@
   // on. This helper accumulates all remaining arguments past the function’s
   // argument length (or an explicit `startIndex`), into an array that becomes
   // the last argument. Similar to ES6’s "rest parameter".
-  // 一些函数在开始时采用可变数量的参数，或者在开头采用一些预期参数，然后对可变数量的值进行运算。 
-  // 该辅助函数将函数的参数长度（或显式的“ startIndex”）之后的所有剩余参数累加到一个数组中，该数组成为最后一个参数。 
+  // 一些函数在开始时采用可变数量的参数，或者在开头采用一些预期参数，然后对可变数量的值进行运算。
+  // 该辅助函数将函数的参数长度（或显式的“ startIndex”）之后的所有剩余参数累加到一个数组中，该数组成为最后一个参数。
   // 与ES6的“rest参数”相似。
   var restArguments = function (func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
@@ -256,9 +256,9 @@
   // 详细用法(https://underscorejs.org/#each)：
   /**
       _.each(list, iteratee, [context]) Alias: forEach
-      Iterates over a list of elements, yielding each in turn to an iteratee function. 
-      The iteratee is bound to the context object, if one is passed. 
-      Each invocation of iteratee is called with three arguments: (element, index, list). 
+      Iterates over a list of elements, yielding each in turn to an iteratee function.
+      The iteratee is bound to the context object, if one is passed.
+      Each invocation of iteratee is called with three arguments: (element, index, list).
       If list is a JavaScript object, iteratee's arguments will be (value, key, list). Returns the list for chaining.
       _.each(list, iteratee, [context]) 也称: forEach
       遍历元素列表，依次将每个元素传递到iteratee函数。如果已传递，则iteratee绑定到上下文对象。
@@ -272,8 +272,8 @@
       => alerts each number value in turn... // 依次弹出每个数字
       ```
 
-      Note: Collection functions work on arrays, objects, and array-like objects such as arguments, NodeList and similar. 
-      But it works by duck-typing, so avoid passing objects with a numeric length property. 
+      Note: Collection functions work on arrays, objects, and array-like objects such as arguments, NodeList and similar.
+      But it works by duck-typing, so avoid passing objects with a numeric length property.
       It's also good to note that an each loop cannot be broken out of — to break, use _.find instead.
       注意：集合函数适用于数组，对象和类似数组的对象，例如arguments，NodeList等。
       但是鸭子类型也可运行，因此请避免传递具有数字长度属性的对象。另外注意循环无法中断————需要中断，以`_.find`替代。
@@ -299,7 +299,7 @@
   // 详细用法(https://underscorejs.org/#map):
   /**
     _.map(list, iteratee, [context]) Alias: collect
-    Produces a new array of values by mapping each value in list through a transformation function (iteratee). 
+    Produces a new array of values by mapping each value in list through a transformation function (iteratee).
     The iteratee is passed three arguments: the value, then the index (or key) of the iteration, and finally a reference to the entire list.
     _.map(list, iteratee, [context]) 也叫: collect
     通过转换函数（iteratee）映射列表中的每个值来生成新的值数组。
@@ -356,17 +356,17 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
   // **Reduce**从值的列表中构建成一个单值，也叫`inject`或`foldl`。
-  // 详细用法(https://underscorejs.org/#reduce): 
+  // 详细用法(https://underscorejs.org/#reduce):
   /**
       _.reduce(list, iteratee, [memo], [context])   Aliases: inject, foldl
-      Also known as inject and foldl, reduce boils down a list of values into a single value. 
-      Memo is the initial state of the reduction, and each successive step of it should be returned by iteratee. 
+      Also known as inject and foldl, reduce boils down a list of values into a single value.
+      Memo is the initial state of the reduction, and each successive step of it should be returned by iteratee.
       The iteratee is passed four arguments: the memo, then the value and index (or key) of the iteration, and finally a reference to the entire list.
       _.reduce(list, iteratee, [memo], [context])   也叫: inject, foldl
       也叫inject、foldl，reduce将值列表简化为单个值。Memo是reduce的初始状态，它的每个后续步骤都应该由iteratee返回。
       iteratee有四个参数：memo，迭代的值和索引，最后一个是整个列表的引用。
 
-      If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element of the list. 
+      If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element of the list.
       The first element is instead passed as the memo in the invocation of the iteratee on the next element in the list.
       如果没有memo传递给reduce的初始调用，则不会在列表的第一个元素上调用iteratee。
 
@@ -398,8 +398,8 @@
   // 详细用法参考：https://underscorejs.org/#find
   /*
       _.find(list, predicate, [context]) Alias: detect
-      Looks through each value in the list, returning the first one that passes a truth test (predicate), or undefined if no value passes the test. 
-      The function returns as soon as it finds an acceptable element, and doesn't traverse the entire list. 
+      Looks through each value in the list, returning the first one that passes a truth test (predicate), or undefined if no value passes the test.
+      The function returns as soon as it finds an acceptable element, and doesn't traverse the entire list.
       predicate is transformed through iteratee to facilitate shorthand syntaxes.
       遍历列表中的每个值，返回第一个通过真值测试（断言）的值，如果没有值通过测试，则返回undefined。
       该函数在找到满足条件的元素后立即返回，并且不会遍历整个列表。 断言通过迭代进行转换，以简化语法。
@@ -421,7 +421,7 @@
   // 详细用法参考：https://underscorejs.org/#filter
   /*
       _.filter(list, predicate, [context]) Alias: select
-      Looks through each value in the list, returning an array of all the values that pass a truth test (predicate). 
+      Looks through each value in the list, returning an array of all the values that pass a truth test (predicate).
       predicate is transformed through iteratee to facilitate shorthand syntaxes.
       遍历列表中的每个值，返回所有通过真值测试（断言）的值的数组。断言通过迭代进行转换，以简化语法。
 
@@ -444,7 +444,7 @@
   // 详细用法参考：https://underscorejs.org/#reject
   /*
       _.reject(list, predicate, [context])
-      Returns the values in list without the elements that the truth test (predicate) passes. The opposite of filter. 
+      Returns the values in list without the elements that the truth test (predicate) passes. The opposite of filter.
       predicate is transformed through iteratee to facilitate shorthand syntaxes.
       返回列表中的值，其中不包含真值测试（断言）通过的元素。与filter相反。断言通过迭代进行转换，以简化语法。
 
@@ -463,12 +463,12 @@
   // 详细用法参考：https://underscorejs.org/#every
   /*
     _.every(list, [predicate], [context]) Alias: all
-    Returns true if all of the values in the list pass the predicate truth test. 
-    Short-circuits and stops traversing the list if a false element is found. 
+    Returns true if all of the values in the list pass the predicate truth test.
+    Short-circuits and stops traversing the list if a false element is found.
     predicate is transformed through iteratee to facilitate shorthand syntaxes.
     如果列表中的所有值均通过真值测试，则返回true。如果发现错误元素，则短路并停止遍历该列表。
     断言通过迭代进行转换，以简化语法。
-     
+
     ```js
     _.every([2, 4, 5], function(num) { return num % 2 == 0; });
     => false
@@ -491,12 +491,12 @@
   // 详细用法参考：https://underscorejs.org/#some
   /*
       _.some(list, [predicate], [context]) Alias: any
-      Returns true if any of the values in the list pass the predicate truth test. 
-      Short-circuits and stops traversing the list if a true element is found. 
+      Returns true if any of the values in the list pass the predicate truth test.
+      Short-circuits and stops traversing the list if a true element is found.
       predicate is transformed through iteratee to facilitate shorthand syntaxes.
       如果列表中的任何值通过真值测试，则返回true。如果找到正确的元素，则短路并停止遍历该列表。
       断言通过迭代进行转换，以简化语法。
-       
+
     ```js
       _.some([null, 0, 'yes', false]);
       => true
@@ -519,7 +519,7 @@
   // 详细用法参考：https://underscorejs.org/#contains
   /*
     _.contains(list, value, [fromIndex]) Aliases: include, includes
-    Returns true if the value is present in the list. Uses indexOf internally, if list is an Array. 
+    Returns true if the value is present in the list. Uses indexOf internally, if list is an Array.
     Use fromIndex to start your search at a given index.
     如果列表中有该元素，返回true。如果列表是数组，直接用indexOf。使用fromIndex在给定索引处开始搜索。
 
@@ -704,7 +704,7 @@
   // https://underscorejs.org/#countBy
   /*
     _.countBy(list, iteratee, [context])
-    Sorts a list into groups and returns a count for the number of objects in each group. 
+    Sorts a list into groups and returns a count for the number of objects in each group.
     Similar to groupBy, but instead of returning a list of values, returns a count for the number of values in that group.
     将列表分为几组，并返回每个组中对象数的计数。与groupBy相似，但不返回值列表，而是返回该组中值数量的计数。
 
@@ -772,7 +772,7 @@
   // https://underscorejs.org/#partition
   /*
     _.partition(list, predicate)
-    Split list into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate. 
+    Split list into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
     predicate is transformed through iteratee to facilitate shorthand syntaxes.
     把列表拆成两个数组：一个所有元素都满足条件，另一个所有元素都不满足条件。
     断言通过迭代进行转换，以简化语法。
@@ -795,6 +795,17 @@
   // allows it to work with `_.map`.
   // 取数组中的第一个元素。传递n将会返回数组中的前N个值。
   // 也叫`head`、`take`。**guard**参数以确保能在`_.map`中使用。
+  // https://underscorejs.org/#first
+  /*
+    first_.first(array, [n]) Aliases: head, take
+    Returns the first element of an array. Passing n will return the first n elements of the array.
+    返回数组中的第一个元素。传入n则返回数组的前n个元素。
+
+    ```js
+        _.first([5, 4, 3, 2, 1]);
+        => 5
+    ```
+  */
   _.first = _.head = _.take = function (array, n, guard) {
     if (array == null || array.length < 1) return n == null ? void 0 : [];
     if (n == null || guard) return array[0];
@@ -806,12 +817,35 @@
   // the array, excluding the last N.
   // 返回除数组的最后一项以外的所有内容。特别是在arguments对象上特别有用。
   // 传递**n**将返回数组中除了最后的N外的所有值。
+  // https://underscorejs.org/#initial
+  /*
+    _.initial(array, [n])
+    Returns everything but the last entry of the array. Especially useful on the arguments object.
+    Pass n to exclude the last n elements from the result.
+    返回除数组的最后一项以外的所有内容。特别是在arguments对象上特别有用。
+    传递**n**将返回数组中除了最后的N外的所有值。
+
+    ```js
+`    _.initial([5, 4, 3, 2, 1]);
+    => [5, 4, 3, 2]`
+    ```
+  */
   _.initial = function (array, n, guard) {
     return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
   };
 
   // Get the last element of an array. Passing **n** will return the last N
   // values in the array.
+  // 取数组中最后的元素。传递**n**将返回数组的最后N个元素。
+  /* https://underscorejs.org/#last
+    _.last(array, [n])
+    Returns the last element of an array. Passing n will return the last n elements of the array.
+
+    ``js
+      _.last([5, 4, 3, 2, 1]);
+      => 1
+    ```
+  */
   _.last = function (array, n, guard) {
     if (array == null || array.length < 1) return n == null ? void 0 : [];
     if (n == null || guard) return array[array.length - 1];

@@ -1,0 +1,39 @@
+{
+  "name": "list-to-tree",
+  "version": "2.2.3",
+  "description": "List to tree data structure",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine",
+    "performance": "node bin/performance.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DenQ/list-to-tree.git"
+  },
+  "keywords": [
+    "list",
+    "tree",
+    "list to tree",
+    "javascript list to tree",
+    "js list to tree",
+    "collection to tree",
+    "javascript collection to tree",
+    "js collection to tree",
+    "collection",
+    "jquery list to tree",
+    "jquery collection to tree"
+  ],
+  "author": "DenQ <denquick@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DenQ/list-to-tree/issues"
+  },
+  "homepage": "https://github.com/DenQ/list-to-tree",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  },
+  "dependencies": {
+    "@denq/iron-tree": "^1.3.1"
+  }
+}

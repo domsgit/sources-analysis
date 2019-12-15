@@ -10,3 +10,4 @@
 ## [iron-tree](https://github.com/DenQ/iron-tree)
 ## [list-to-tree](https://github.com/DenQ/list-to-tree)
 ## [is-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
+## [deepmerge](https://github.com/TehShrike/deepmerge)

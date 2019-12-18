@@ -12,3 +12,4 @@
 ## [is-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
 ## [deepmerge](https://github.com/TehShrike/deepmerge)
 ## [is-plain-object](https://github.com/jonschlinkert/is-plain-object)
+## [ramda](https://github.com/ramda/ramda)

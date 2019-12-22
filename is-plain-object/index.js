@@ -7,13 +7,15 @@
 
 import isObject from 'isobject';
 
+// 是否是原生的对象类型
 function isObjectObject(o) {
   return isObject(o) === true
     && Object.prototype.toString.call(o) === '[object Object]';
 }
 
+// 是否是对象类型
 export default function isPlainObject(o) {
-  var ctor,prot;
+  var ctor, prot;
 
   if (isObjectObject(o) === false) return false;
 
@@ -30,6 +32,6 @@ export default function isPlainObject(o) {
     return false;
   }
 
-  // Most likely a plain Object 只可能是原生的对象了
+  // Most likely a plain Object 到这里基本可以断定是一个对象了
   return true;
 };

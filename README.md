@@ -1,5 +1,5 @@
 # sources-analysis
-各种小库源码解读分析
+本库是为了鞭策自己。对各种小库源码的解读分析，仅供参考。下面链接是github对应源码的地址。本库对相关源码的解读看对应目录的源码文件。
 
 - [ ] [underscore](https://github.com/jashkenas/underscore/)
 > - [x] [underscorejs 基本骨架](https://github.com/domsgit/sources-analysis/issues/1)

@@ -14,6 +14,8 @@
 - [x] [isobject](https://github.com/jonschlinkert/isobject)
 - [x] [flagged-respawn](https://github.com/gulpjs/flagged-respawn)
 - [x] [node-extend](https://github.com/justmoon/node-extend)
+- [x] [find-up-sync](https://github.com/paulovieira/find-up-sync)
+- [ ] [fined](https://github.com/gulpjs/fined)
 - [ ] [js-liftoff](https://github.com/js-cli/js-liftoff)
 - [ ] [gulp-cli](https://github.com/gulpjs/gulp-cli)
 - [ ] [gulp](https://github.com/gulpjs/gulp)

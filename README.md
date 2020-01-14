@@ -15,6 +15,7 @@
 - [x] [flagged-respawn](https://github.com/gulpjs/flagged-respawn)
 - [x] [node-extend](https://github.com/justmoon/node-extend)
 - [x] [find-up-sync](https://github.com/paulovieira/find-up-sync)
+- [ ] [object.pick](https://github.com/jonschlinkert/object.pick)
 - [ ] [fined](https://github.com/gulpjs/fined)
 - [ ] [js-liftoff](https://github.com/js-cli/js-liftoff)
 - [ ] [gulp-cli](https://github.com/gulpjs/gulp-cli)

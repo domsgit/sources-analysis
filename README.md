@@ -1,9 +1,9 @@
 # sources-analysis
-本库是为了鞭策自己。对各种小库源码的解读分析，仅供参考。下面链接是github对应源码的地址。本库对相关源码的解读看对应目录的源码文件。
+本库是为了鞭策自己。对各种小库源码的解读分析，仅供参考。下面链接是github对应源码的地址（没有标记为【blog】的）。本库对相关源码的解读看对应目录的源码文件。
 
 - [ ] [underscore](https://github.com/jashkenas/underscore/)
-> - [x] [underscorejs 基本骨架](https://github.com/domsgit/sources-analysis/issues/1)
-> - [ ] [underscorejs 内部变量及函数](https://github.com/domsgit/sources-analysis/issues/2)
+> - [x] 【blog】 [underscorejs 基本骨架](https://github.com/domsgit/sources-analysis/issues/1)
+> - [ ] 【blog】 [underscorejs 内部变量及函数](https://github.com/domsgit/sources-analysis/issues/2)
 
 - [x] [iron-tree](https://github.com/DenQ/iron-tree)
 - [x] [list-to-tree](https://github.com/DenQ/list-to-tree)
@@ -15,8 +15,16 @@
 - [x] [flagged-respawn](https://github.com/gulpjs/flagged-respawn)
 - [x] [node-extend](https://github.com/justmoon/node-extend)
 - [x] [find-up-sync](https://github.com/paulovieira/find-up-sync)
-- [ ] [object.pick](https://github.com/jonschlinkert/object.pick)
+- [x] [object.pick](https://github.com/jonschlinkert/object.pick)
+- [x] [homedir-polyfill](https://github.com/doowb/homedir-polyfill)
+- [ ] [parse-passwd](https://github.com/doowb/parse-passwd)
+- [x] [expand-tilde](https://github.com/jonschlinkert/expand-tilde)
+- [x] [array-each](https://github.com/jonschlinkert/array-each)
+- [x] [array-slice](https://github.com/jonschlinkert/array-slice)
+- [ ] [for-own](https://github.com/jonschlinkert/for-own)
+- [x] [object.defaults](https://github.com/jonschlinkert/object.defaults)
 - [ ] [fined](https://github.com/gulpjs/fined)
 - [ ] [js-liftoff](https://github.com/js-cli/js-liftoff)
 - [ ] [gulp-cli](https://github.com/gulpjs/gulp-cli)
 - [ ] [gulp](https://github.com/gulpjs/gulp)
+- [ ] [undertaker](https://github.com/gulpjs/undertaker)

@@ -217,7 +217,7 @@
     return obj != null && hasOwnProperty.call(obj, path);
   }
 
-  // ??TODO??
+  // 深度（属性层级嵌套深）取对象属性
   var deepGet = function (obj, path) {
     var length = path.length;
     for (var i = 0; i < length; i++) {
@@ -535,6 +535,15 @@
   };
 
   // Invoke a method (with arguments) on every item in a collection.
+  // https://underscorejs.org/#invoke
+  /*
+    _.invoke(list, methodName, *arguments)
+    Calls the method named by methodName on each value in the list. Any extra arguments passed to invoke will be forwarded on to the method invocation.
+    在list的每个元素上执行methodName方法。 任何传递给invoke的额外参数，invoke都会在调用methodName方法的时候传递给它。
+    
+    _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
+    => [[1, 5, 7], [1, 2, 3]]
+  */
   _.invoke = restArguments(function (obj, path, args) {
     var contextPath, func;
     if (_.isFunction(path)) {
@@ -557,23 +566,70 @@
   });
 
   // Convenience version of a common use case of `map`: fetching a property.
+  // https://underscorejs.org/#pluck
+  /*
+    _.pluck(list, propertyName)
+    A convenient version of what is perhaps the most common use-case for map: extracting a list of property values.
+    pluck也许是map最常使用的用例模型的简化版本，即萃取数组对象中某属性值，返回一个数组。
+
+    var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+    _.pluck(stooges, 'name');
+    => ["moe", "larry", "curly"]
+  */
   _.pluck = function (obj, key) {
     return _.map(obj, _.property(key));
   };
 
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
+  // https://underscorejs.org/#where
+  /*
+    _.where(list, properties)
+    Looks through each value in the list, returning an array of all the values that matches the key-value pairs listed in properties.
+    遍历list中的每一个值，返回一个数组，这个数组里的元素包含 properties 所列出的键 - 值对。
+
+    _.where(listOfPlays, {author: "Shakespeare", year: 1611});
+    => [{title: "Cymbeline", author: "Shakespeare", year: 1611},
+        {title: "The Tempest", author: "Shakespeare", year: 1611}]
+  */
   _.where = function (obj, attrs) {
     return _.filter(obj, _.matcher(attrs));
   };
 
   // Convenience version of a common use case of `find`: getting the first object
   // containing specific `key:value` pairs.
+  // https://underscorejs.org/#findWhere
+  /*
+    _.findWhere(list, properties)
+    Looks through the list and returns the first value that matches all of the key-value pairs listed in properties.
+    遍历整个list，返回 matches（匹配） properties参数所列出的所有 键 - 值 对的第一个值。
+
+    If no match is found, or if list is empty, undefined will be returned.
+    如果没有找到匹配的属性，或者list是空的，那么将返回undefined。
+
+    _.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
+    => {year: 1918, newsroom: "The New York Times",
+      reason: "For its public service in publishing in full so many official reports,
+      documents and speeches by European statesmen relating to the progress and
+      conduct of the war."}
+  */
   _.findWhere = function (obj, attrs) {
     return _.find(obj, _.matcher(attrs));
   };
 
   // Return the maximum element (or element-based computation).
+  // https://underscorejs.org/#max
+  /*
+    _.max(list, [iteratee], [context])
+    Returns the maximum value in list. If an iteratee function is provided, it will be used on each value to generate the criterion by which the value is ranked. 
+    -Infinity is returned if list is empty, so an isEmpty guard may be required. Non-numerical values in list will be ignored.
+    返回list中的最大值。如果传递iteratee参数，iteratee将作为list中每个值的排序依据。
+    如果list为空，将返回-Infinity，所以你可能需要事先用isEmpty检查 list 。
+
+    var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+    _.max(stooges, function(stooge){ return stooge.age; });
+    => {name: 'curly', age: 60};
+  */
   _.max = function (obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
       value, computed;
@@ -599,6 +655,19 @@
   };
 
   // Return the minimum element (or element-based computation).
+  // https://underscorejs.org/#min
+  /*
+    _.min(list, [iteratee], [context])
+    Returns the minimum value in list. If an iteratee function is provided, 
+    it will be used on each value to generate the criterion by which the value is ranked. 
+    Infinity is returned if list is empty, so an isEmpty guard may be required. Non-numerical values in list will be ignored.
+    返回list中的最小值。如果传递iteratee参数，iteratee将作为list中每个值的排序依据。
+    如果list为空，将返回Infinity，所以你可能需要事先用isEmpty检查 list 。
+
+    var numbers = [10, 5, 100, 2, 1000];
+    _.min(numbers);
+    => 2
+  */
   _.min = function (obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
       value, computed;
@@ -625,6 +694,14 @@
 
   // Shuffle a collection.
   // 清洗一个集合。
+  // https://underscorejs.org/#shuffle
+  /*
+    _.shuffle(list)
+    Returns a shuffled copy of the list, using a version of the Fisher-Yates shuffle.
+
+    _.shuffle([1, 2, 3, 4, 5, 6]);
+    => [4, 1, 6, 3, 5, 2]
+  */
   _.shuffle = function (obj) {
     return _.sample(obj, Infinity);
   };
@@ -633,6 +710,19 @@
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   // If **n** is not specified, returns a single random element.
   // The internal `guard` argument allows it to work with `map`.
+  // https://underscorejs.org/#sample
+  /*
+    _.sample(list, [n])
+    Produce a random sample from the list. Pass a number to return n random elements from the list. 
+    Otherwise a single random item will be returned.
+    从 list中产生一个随机样本。传递一个数字表示从list中返回n个随机元素。否则将返回一个单一的随机项。
+
+    _.sample([1, 2, 3, 4, 5, 6]);
+    => 4
+
+    _.sample([1, 2, 3, 4, 5, 6], 3);
+    => [1, 6, 2]
+  */
   _.sample = function (obj, n, guard) {
     if (n == null || guard) {
       if (!isArrayLike(obj)) obj = _.values(obj);
@@ -652,6 +742,21 @@
   };
 
   // Sort the object's values by a criterion produced by an iteratee.
+  // https://underscorejs.org/#sortBy
+  /*
+    _.sortBy(list, iteratee, [context])
+    Returns a (stably) sorted copy of list, ranked in ascending order by the results of running each value through iteratee. 
+    iteratee may also be the string name of the property to sort by (eg. length).
+    返回一个（稳定的）排序后的list拷贝副本。如果传递iteratee参数，iteratee将作为list中每个值的排序依据。
+    用来进行排序迭代器也可以是属性名称的字符串(比如 length)。
+
+    _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+    => [5, 4, 6, 3, 1, 2]
+
+    var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+    _.sortBy(stooges, 'name');
+    => [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
+  */
   _.sortBy = function (obj, iteratee, context) {
     var index = 0;
     iteratee = cb(iteratee, context);
@@ -673,6 +778,7 @@
   };
 
   // An internal function used for aggregate "group by" operations.
+  // 一个内部函数，用来聚合“分组”操作。
   var group = function (behavior, partition) {
     return function (obj, iteratee, context) {
       var result = partition ? [[], []] : {};
@@ -687,12 +793,43 @@
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
+  // https://underscorejs.org/#groupBy
+  /*
+    _.groupBy(list, iteratee, [context])
+    Splits a collection into sets, grouped by the result of running each value through iteratee. 
+    If iteratee is a string instead of a function, groups by the property named by iteratee on each of the values.
+    把一个集合分组为多个集合，通过 iterator 返回的结果进行分组. 如果 iterator 是一个字符串而不是函数, 
+    那么将使用 iterator 作为各元素的属性名来对比进行分组。
+
+    _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
+    => {1: [1.3], 2: [2.1, 2.4]}
+
+    _.groupBy(['one', 'two', 'three'], 'length');
+    => {3: ["one", "two"], 5: ["three"]}
+  */
   _.groupBy = group(function (result, value, key) {
     if (has(result, key)) result[key].push(value); else result[key] = [value];
   });
 
   // Indexes the object's values by a criterion, similar to `groupBy`, but for
   // when you know that your index values will be unique.
+  // 按照类似于“groupBy”的准则索引对象的值，但仅对于当您知道索引值将是唯一的时。
+  // https://underscorejs.org/#indexBy
+  /*
+    _.indexBy(list, iteratee, [context])
+    Given a list, and an iteratee function that returns a key for each element in the list (or a property name), 
+    returns an object with an index of each item. Just like groupBy, but for when you know your keys are unique.
+    给定一个list，和 一个用来返回一个在列表中的每个元素键 的iterator 函数（或属性名）， 返回一个每一项索引的对象。
+    和groupBy非常像，但是当你知道你的键是唯一的时候可以使用indexBy 。
+
+    var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+    _.indexBy(stooges, 'age');
+    => {
+      "40": {name: 'moe', age: 40},
+      "50": {name: 'larry', age: 50},
+      "60": {name: 'curly', age: 60}
+    }
+  */
   _.indexBy = group(function (result, value, key) {
     result[key] = value;
   });
@@ -855,11 +992,26 @@
   // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
   // Especially useful on the arguments object. Passing an **n** will return
   // the rest N values in the array.
+  /* https://underscorejs.org/#rest
+    _.rest(array, [index]) Aliases: tail, drop
+    返回数组中除了第一个元素外的其他全部元素。传递 index 参数将返回从index开始的剩余所有元素 。
+
+    _.rest([5, 4, 3, 2, 1]);
+    => [4, 3, 2, 1]
+  */
   _.rest = _.tail = _.drop = function (array, n, guard) {
     return slice.call(array, n == null || guard ? 1 : n);
   };
 
   // Trim out all falsy values from an array.
+  /* https://underscorejs.org/#compact
+    _.compact(list)
+    返回一个除去了所有 falsy(假) 值的 list 副本。 
+    在javascript中, false, null, 0, "", undefined 和 NaN 都是falsy(假)值.
+
+    _.compact([0, 1, false, 2, '', 3]);
+    => [1, 2, 3]
+  */
   _.compact = function (array) {
     return _.filter(array, Boolean);
   };
@@ -887,11 +1039,29 @@
   };
 
   // Flatten out an array, either recursively (by default), or just one level.
+  /* https://underscorejs.org/#flatten
+    _.flatten(array, [shallow])
+    将一个嵌套多层的数组 array（数组） (嵌套可以是任何层数)转换为只有一层的数组。 
+    如果你传递 shallow参数，数组将只减少一维的嵌套。
+
+    _.flatten([1, [2], [3, [[4]]]]);
+    => [1, 2, 3, 4];
+
+    _.flatten([1, [2], [3, [[4]]]], true);
+    => [1, 2, 3, [[4]]];
+  */
   _.flatten = function (array, shallow) {
     return flatten(array, shallow, false);
   };
 
   // Return a version of the array that does not contain the specified value(s).
+  /* https://underscorejs.org/#without
+    _.without(array, *values)
+    返回一个删除所有values值后的 array副本。（注：使用===表达式做相等测试。）
+
+    _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
+    => [2, 3, 4]
+  */
   _.without = restArguments(function (array, otherArrays) {
     return _.difference(array, otherArrays);
   });
@@ -902,6 +1072,15 @@
   // is not a one-to-one function, so providing an iteratee will disable
   // the faster algorithm.
   // Aliased as `unique`.
+  /* https://underscorejs.org/#uniq
+    _.uniq(array, [isSorted], [iteratee]) Alias: unique
+    返回 array去重后的副本, 使用 === 做相等测试. 如果您确定 array 已经排序, 
+    那么给 isSorted 参数传递 true值, 此函数将运行的更快的算法. 如果要处理对象元素, 
+    传递 iteratee函数来获取要对比的属性。
+
+    _.uniq([1, 2, 1, 4, 1, 3]);
+    => [1, 2, 4, 3]
+  */
   _.uniq = _.unique = function (array, isSorted, iteratee, context) {
     if (!_.isBoolean(isSorted)) {
       context = iteratee;
@@ -931,12 +1110,26 @@
 
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
+  /* https://underscorejs.org/#union
+      _.union(*arrays)
+    返回传入的 arrays（数组）并集：按顺序返回，返回数组的元素是唯一的，可以传入一个或多个 arrays （数组）。
+
+    _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+    => [1, 2, 3, 101, 10]
+  */
   _.union = restArguments(function (arrays) {
     return _.uniq(flatten(arrays, true, true));
   });
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
+  /* https://underscorejs.org/#intersection
+    _.intersection(*arrays)
+    返回传入 arrays（数组）交集。结果中的每个值是存在于传入的每个arrays（数组）里。
+
+    _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+    => [1, 2]
+  */
   _.intersection = function (array) {
     var result = [];
     var argsLength = arguments.length;
@@ -954,6 +1147,13 @@
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
+  /* https://underscorejs.org/#difference
+    _.difference(array, *others)
+    类似于without，但返回的值来自array参数数组，并且不存在于other 数组。
+
+    _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
+    => [1, 3, 4]
+  */
   _.difference = restArguments(function (array, rest) {
     rest = flatten(rest, true, true);
     return _.filter(array, function (value) {
@@ -963,6 +1163,14 @@
 
   // Complement of _.zip. Unzip accepts an array of arrays and groups
   // each array's elements on shared indices.
+  /* https://underscorejs.org/#unzip
+    _.unzip(array)
+    与zip功能相反的函数，给定若干arrays，返回一串联的新数组，其第一元素个包含所有的输入数组的第一元素，
+    其第二包含了所有的第二元素，依此类推。（感谢 @周文彬1986、 @未定的终点 指出示例错误）。
+
+    _.unzip([["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]);
+    => [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
+  */
   _.unzip = function (array) {
     var length = array && _.max(array, getLength).length || 0;
     var result = Array(length);
@@ -975,6 +1183,14 @@
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
+  /* https://underscorejs.org/#zip
+    _.zip(*arrays)
+    将每个 arrays 中相应位置的值合并在一起。 当您有通过匹配数组索引进行协调的独立数据源时，这非常有用。 
+    结合 apply 一起使用传入一个二维数组。 如果你用来处理矩阵嵌套数组时，则可以使用它来转换矩阵。
+
+    _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
+    => [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+  */
   _.zip = restArguments(_.unzip);
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
@@ -1743,6 +1959,12 @@
   // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
   // previous owner. Returns a reference to the Underscore object.
   // 以*noConflict*模式运行Underscore.js，返回之前如存在的`_`变量。该函数返回Underscore对象的引用。
+  /* https://underscorejs.org/#noConflict
+    _.noConflict()
+    放弃Underscore 的控制变量 _。返回Underscore 对象的引用。
+
+    var underscore = _.noConflict();
+  */
   _.noConflict = function () {
     root._ = previousUnderscore;
     return this;
@@ -1750,12 +1972,29 @@
 
   // Keep the identity function around for default iteratees.
   // 保留身份功能以进行默认迭代。
+  /* https://underscorejs.org/#identity
+    _.identity(value)
+    返回与传入参数相等的值. 相当于数学里的: f(x) = x
+    这个函数看似无用, 但是在Underscore里被用作默认的迭代器iterator.
+
+    var stooge = {name: 'moe'};
+    stooge === _.identity(stooge);
+    => true
+  */
   _.identity = function (value) {
     return value;
   };
 
   // Predicate-generating functions. Often useful outside of Underscore.
   // 断言生成函数。 通常在Underscore之外有用。
+  /* https://underscorejs.org/#constant
+    _.constant(value)
+    创建一个函数，这个函数 返回相同的值 用来作为_.constant的参数。
+
+    var stooge = {name: 'moe'};
+    stooge === _.constant(stooge)();
+    => true
+  */
   _.constant = function (value) {
     return function () {
       return value;
@@ -1763,6 +2002,12 @@
   };
 
   // 空函数
+  /* https://underscorejs.org/#noop
+    _.noop()
+    返回undefined，不论传递给它的是什么参数。 可以用作默认可选的回调参数。
+
+    obj.initialize = _.noop;
+  */
   _.noop = function () { };
 
   // Creates a function that, when passed an object, will traverse that object’s

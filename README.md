@@ -4,6 +4,11 @@
 - [ ] [underscore](https://github.com/jashkenas/underscore/)
 > - [x] 【blog】 [underscorejs 基本骨架](https://github.com/domsgit/sources-analysis/issues/1)
 > - [ ] 【blog】 [underscorejs 内部变量及函数](https://github.com/domsgit/sources-analysis/issues/2)
+> - [ ] [underscorejs 集合](https://github.com/domsgit/sources-analysis/issues/3)
+> - [ ] [underscorejs 数组](https://github.com/domsgit/sources-analysis/issues/4)
+> - [ ] [underscorejs 函数](https://github.com/domsgit/sources-analysis/issues/5)
+> - [ ] [underscorejs 对象](https://github.com/domsgit/sources-analysis/issues/6)
+> - [ ] [underscorejs 实用功能](https://github.com/domsgit/sources-analysis/issues/7)
 
 - [x] [iron-tree](https://github.com/DenQ/iron-tree)
 - [x] [list-to-tree](https://github.com/DenQ/list-to-tree)
@@ -28,3 +33,4 @@
 - [ ] [gulp-cli](https://github.com/gulpjs/gulp-cli)
 - [ ] [gulp](https://github.com/gulpjs/gulp)
 - [ ] [undertaker](https://github.com/gulpjs/undertaker)
+- [ ] [snabbdom](https://github.com/paldepind/snabbdom)

@@ -11,6 +11,7 @@ export type DestroyHook = (vNode: VNode) => any;
 export type RemoveHook = (vNode: VNode, removeCallback: () => void) => any;
 export type PostHook = () => any;
 
+// 定义 钩子 类型接口
 export interface Hooks {
   pre?: PreHook;
   init?: InitHook;
